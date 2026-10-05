@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Staff Management | SmartInventory</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: #0b1220;
+            color: white;
+            padding: 28px 18px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 38px;
+            padding-left: 10px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .menu-title {
+            font-size: 10px;
+            color: #94a3b8;
+            margin: 24px 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .menu a:hover {
+            background: #172033;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 24px;
+            margin-right: 9px;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #111827;
+        }
+
+        .topbar p {
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .logout {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Page Header */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Staff Table */
+
+        .table-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 15px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        td {
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .role {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #eff6ff;
+            color: #2563eb;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .remove-btn {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .remove-btn:hover {
+            text-decoration: underline;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            Smart<span>Inventory</span>
+        </div>
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard">
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/products">
+                <span class="menu-icon">▣</span>
+                Products
+            </a>
+
+            <a href="/categories">
+                <span class="menu-icon">◈</span>
+                Categories
+            </a>
+
+            <a href="/suppliers">
+                <span class="menu-icon">♢</span>
+                Suppliers
+            </a>
+
+            <a href="/stock-management">
+                <span class="menu-icon">▤</span>
+                Stock Management
+            </a>
+
+            <a href="/sales">
+                <span class="menu-icon">↗</span>
+                Sales
+            </a>
+
+            <a href="/staff" class="active">
+                <span class="menu-icon">♙</span>
+                Staff Management
+            </a>
+
+        </div>
+
+        <div class="menu-title">
+            Reports
+        </div>
+
+        <div class="menu">
+
+            <a href="#">
+                <span class="menu-icon">▥</span>
+                Sales Reports
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">▤</span>
+                Stock Reports
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Staff Management</h1>
+
+                <p>
+                    Manage staff members in your business
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div class="user">
+                    👤 Admin
+                </div>
+
+                <a
+                    class="logout"
+                    href="{{ url_for('logout') }}"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="page-header">
+
+            <div>
+
+                <h2>Staff Members</h2>
+
+                <p>
+                    Staff accounts belonging to your business
+                </p>
+
+            </div>
+
+            <a href="/add-staff" class="add-btn">
+                + Add Staff
+            </a>
+
+        </div>
+
+
+        {% if staff_members %}
+
+        <div class="table-card">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for member in staff_members %}
+
+                    <tr>
+
+                        <td>
+                            {{ member.id }}
+                        </td>
+
+                        <td>
+                            {{ member.email }}
+                        </td>
+
+                        <td>
+                            <span class="role">
+                                {{ member.role }}
+                            </span>
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="{{ url_for('remove_staff', id=member.id) }}"
+                                class="remove-btn"
+                                onclick="return confirm('Remove this staff member?');"
+                            >
+                                Remove
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="table-card">
+
+            <div class="empty">
+
+                <h3>No Staff Members</h3>
+
+                <p>
+                    Add your first staff member to this business.
+                </p>
+
+                <br>
+
+                <a href="/add-staff" class="add-btn">
+                    + Add Staff
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

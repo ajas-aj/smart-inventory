@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Sale | SmartInventory</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 270px;
+            background: #0b1424;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 24px 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #1e293b;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            background: #f8fafc;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Form Card */
+
+        .form-card {
+            max-width: 700px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        .form-header {
+            margin-bottom: 28px;
+        }
+
+        .form-header h2 {
+            font-size: 21px;
+            color: #111827;
+            margin-bottom: 7px;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .save-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel-btn {
+            text-decoration: none;
+            color: #64748b;
+            padding: 12px 18px;
+            border-radius: 9px;
+            font-size: 14px;
+        }
+
+        .cancel-btn:hover {
+            background: #f1f5f9;
+            color: #374151;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .user-area {
+                display: none;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            Smart<span>Inventory</span>
+        </div>
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/categories">
+                Categories
+            </a>
+
+            <a href="/suppliers">
+                Suppliers
+            </a>
+
+            <a href="/stock-management">
+                Stock Management
+            </a>
+
+            <a href="/sales" class="active">
+                Sales
+            </a>
+
+        </div>
+
+        <div class="menu-title">
+            Reports
+        </div>
+
+        <div class="menu">
+
+            <a href="#">
+                Sales Reports
+            </a>
+
+            <a href="#">
+                Stock Reports
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Add Sale</h1>
+
+                <p>
+                    Record a new sales transaction
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div class="user">
+                    👤 Admin
+                </div>
+
+                <a
+                    class="logout"
+                    href="{{ url_for('logout') }}"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Form -->
+
+        <div class="form-card">
+
+            <div class="form-header">
+
+                <h2>Sale Information</h2>
+
+                <p>
+                    Select a product and enter the sales details below.
+                </p>
+
+            </div>
+
+
+            <form method="POST">
+
+                <div class="form-group">
+
+                    <label>
+                        Product
+                    </label>
+
+                    <select name="product_id" required>
+
+                        <option value="">
+                            Select Product
+                        </option>
+
+                        {% for product in products %}
+
+                        <option value="{{ product.id }}">
+                            {{ product.name }} — Stock: {{ product.quantity }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Quantity Sold
+                    </label>
+
+                    <input
+                        type="number"
+                        name="quantity_sold"
+                        min="1"
+                        placeholder="Enter quantity"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Sale Price
+                    </label>
+
+                    <input
+                        type="number"
+                        name="sale_price"
+                        step="0.01"
+                        min="0"
+                        placeholder="Enter sale price"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        Save Sale
+                    </button>
+
+                    <a
+                        href="/sales"
+                        class="cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

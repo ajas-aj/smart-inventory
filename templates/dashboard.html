@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Smart Inventory</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 260px;
+            min-width: 260px;
+            background: #0b1220;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+            border-right: 1px solid #1e293b;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 38px;
+            padding-left: 10px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .menu-title {
+            font-size: 10px;
+            color: #94a3b8;
+            margin: 24px 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        .menu {
+            width: 100%;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #172033;
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.25);
+        }
+
+        .menu-icon {
+            width: 24px;
+            min-width: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 9px;
+            font-size: 15px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            background: #f8fafc;
+            overflow-x: auto;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .topbar p {
+            color: #64748b;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 8px;
+            border-radius: 8px;
+        }
+
+        .logout:hover {
+            background: #fef2f2;
+        }
+
+        /* =========================
+           STATISTICS CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .blue-icon {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .orange-icon {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .red-icon {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .green-icon {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .card-title {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card-value {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .blue {
+            color: #2563eb;
+        }
+
+        .orange {
+            color: #ea580c;
+        }
+
+        .red {
+            color: #dc2626;
+        }
+
+        .green {
+            color: #16a34a;
+        }
+
+        /* =========================
+           COMMON SECTION
+        ========================= */
+
+        .recent-section {
+            background: white;
+            margin-top: 30px;
+            padding: 26px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+        }
+
+        .recent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .recent-header h2 {
+            margin: 0;
+            font-size: 19px;
+            color: #111827;
+        }
+
+        .recent-header a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .recent-header a:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .recent-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .recent-table th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 14px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        .recent-table td {
+            padding: 16px 12px;
+            font-size: 13px;
+            color: #374151;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .recent-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .recent-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .recent-table td:first-child {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status.in {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .status.low {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
+        .status.out {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 18px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .user-area {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .recent-section {
+                overflow-x: auto;
+            }
+
+            .recent-table {
+                min-width: 600px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            Smart<span>Inventory</span>
+        </div>
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard" class="active">
+                <span class="menu-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/products">
+                <span class="menu-icon">▣</span>
+                Products
+            </a>
+
+            <a href="/categories">
+                <span class="menu-icon">◈</span>
+                Categories
+            </a>
+
+            <a href="/suppliers">
+                <span class="menu-icon">♢</span>
+                Suppliers
+            </a>
+
+            <a href="/stock-management">
+                <span class="menu-icon">▤</span>
+                Stock Management
+            </a>
+
+            <a href="/sales">
+                <span class="menu-icon">↗</span>
+                Sales
+            </a>
+
+            <a href="/staff">
+                <span class="menu-icon">♙</span>
+                Staff Management
+            </a>
+
+        </div>
+
+        <div class="menu-title">
+            Reports
+        </div>
+
+        <div class="menu">
+
+            <a href="#">
+                <span class="menu-icon">▥</span>
+                Sales Reports
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">▤</span>
+                Stock Reports
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome back, Admin
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div class="user">
+                    👤 Admin
+                </div>
+
+                <a
+                    class="logout"
+                    href="{{ url_for('logout') }}"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================= -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon blue-icon">
+                    ▣
+                </div>
+
+                <div class="card-title">
+                    Total Products
+                </div>
+
+                <div class="card-value blue">
+                    {{ total_products }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon orange-icon">
+                    !
+                </div>
+
+                <div class="card-title">
+                    Low Stock Items
+                </div>
+
+                <div class="card-value orange">
+                    {{ low_stock }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon red-icon">
+                    ×
+                </div>
+
+                <div class="card-title">
+                    Out of Stock
+                </div>
+
+                <div class="card-value red">
+                    {{ out_of_stock }}
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon green-icon">
+                    ₹
+                </div>
+
+                <div class="card-title">
+                    Stock Value
+                </div>
+
+                <div class="card-value green">
+                    ₹{{ total_value }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STAFF OVERVIEW
+        ========================= -->
+
+        <div class="recent-section">
+
+            <div class="recent-header">
+
+                <h2>
+                    Staff Members
+                </h2>
+
+                <a href="/staff">
+                    Manage Staff →
+                </a>
+
+            </div>
+
+
+            {% if staff_members %}
+
+            <table class="recent-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Email
+                        </th>
+
+                        <th>
+                            Role
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for member in staff_members %}
+
+                    <tr>
+
+                        <td>
+                            {{ member.email }}
+                        </td>
+
+                        <td>
+
+                            <span class="status in">
+                                {{ member.role }}
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <p style="color:#64748b; font-size:14px;">
+                No staff members added yet.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             RECENT PRODUCTS
+        ========================= -->
+
+        <div class="recent-section">
+
+            <div class="recent-header">
+
+                <h2>
+                    Recent Products
+                </h2>
+
+                <a href="/products">
+                    View All
+                </a>
+
+            </div>
+
+
+            {% if recent_products %}
+
+            <table class="recent-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Product
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Price
+                        </th>
+
+                        <th>
+                            Quantity
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for product in recent_products %}
+
+                    <tr>
+
+                        <td>
+                            {{ product.name }}
+                        </td>
+
+                        <td>
+                            {{ product.category or "-" }}
+                        </td>
+
+                        <td>
+                            ₹{{ product.price }}
+                        </td>
+
+                        <td>
+                            {{ product.quantity }}
+                        </td>
+
+                        <td>
+
+                            {% if product.quantity == 0 %}
+
+                            <span class="status out">
+                                Out of Stock
+                            </span>
+
+                            {% elif product.quantity <= product.minimum_stock %}
+
+                            <span class="status low">
+                                Low Stock
+                            </span>
+
+                            {% else %}
+
+                            <span class="status in">
+                                In Stock
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+            {% else %}
+
+            <p style="color:#64748b; font-size:14px;">
+                No products added yet.
+            </p>
+
+            {% endif %}
+
+        </div>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

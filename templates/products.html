@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products | SmartInventory</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 270px;
+            background: #0b1424;
+            color: white;
+            padding: 28px 18px;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 24px 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #1e293b;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            background: #f8fafc;
+            overflow-x: auto;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* User */
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .role {
+            color: #2563eb;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Page Header */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .page-header h2 {
+            font-size: 20px;
+            color: #111827;
+        }
+
+        .page-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* Add Button */
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Table Card */
+
+        .table-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+            overflow: hidden;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 15px 16px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        td {
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .price {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        /* Status */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status.in {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.low {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status.out {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Actions */
+
+        .actions {
+            white-space: nowrap;
+        }
+
+        .edit-btn {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .delete-btn {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            text-decoration: underline;
+        }
+
+        .view-only {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Empty */
+
+        .empty {
+            background: white;
+            padding: 60px 30px;
+            text-align: center;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+            color: #111827;
+        }
+
+        .empty p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                padding: 22px;
+            }
+
+            .user-area {
+                display: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 18px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .add-btn {
+                white-space: nowrap;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            Smart<span>Inventory</span>
+        </div>
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/products" class="active">
+                Products
+            </a>
+
+            <a href="/categories">
+                Categories
+            </a>
+
+            <a href="/suppliers">
+                Suppliers
+            </a>
+
+            <a href="/stock-management">
+                Stock Management
+            </a>
+
+            <a href="/sales">
+                Sales
+            </a>
+
+        </div>
+
+        <div class="menu-title">
+            Reports
+        </div>
+
+        <div class="menu">
+
+            <a href="#">
+                Sales Reports
+            </a>
+
+            <a href="#">
+                Stock Reports
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main Content -->
+
+    <main class="main">
+
+        <!-- Topbar -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Products</h1>
+
+                <p>
+                    Manage your inventory products
+                </p>
+
+            </div>
+
+
+            <div class="user-area">
+
+                <div class="user">
+
+                    👤 {{ session.get('user') }}
+
+                    <span class="role">
+                        {{ session.get('role') }}
+                    </span>
+
+                </div>
+
+                <a class="logout" href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Page Header -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h2>
+                    All Products
+                </h2>
+
+                <p>
+                    View and manage all products in your inventory
+                </p>
+
+            </div>
+
+
+            <!-- ADMIN ONLY -->
+
+            {% if session.get('role') == 'Admin' %}
+
+            <a href="/add-product" class="add-btn">
+                + Add Product
+            </a>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Products Table -->
+
+        {% if products %}
+
+        <div class="table-card">
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Product</th>
+
+                            <th>Category</th>
+
+                            <th>Supplier</th>
+
+                            <th>Price</th>
+
+                            <th>Quantity</th>
+
+                            <th>Status</th>
+
+                            <th>Minimum Stock</th>
+
+                            <th>Action</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for product in products %}
+
+                        <tr>
+
+                            <td>
+                                {{ product.id }}
+                            </td>
+
+
+                            <td class="product-name">
+                                {{ product.name }}
+                            </td>
+
+
+                            <td>
+                                {{ product.category or "-" }}
+                            </td>
+
+
+                            <td>
+                                {{ product.supplier or "-" }}
+                            </td>
+
+
+                            <td class="price">
+                                ₹{{ product.price }}
+                            </td>
+
+
+                            <td>
+                                {{ product.quantity }}
+                            </td>
+
+
+                            <td>
+
+                                {% if product.quantity == 0 %}
+
+                                    <span class="status out">
+                                        Out of Stock
+                                    </span>
+
+                                {% elif product.quantity <= product.minimum_stock %}
+
+                                    <span class="status low">
+                                        Low Stock
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status in">
+                                        In Stock
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+                                {{ product.minimum_stock }}
+                            </td>
+
+
+                            <td class="actions">
+
+                                <!-- ADMIN -->
+
+                                {% if session.get('role') == 'Admin' %}
+
+                                    <a
+                                        href="/edit-product/{{ product.id }}"
+                                        class="edit-btn"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <a
+                                        href="/delete-product/{{ product.id }}"
+                                        class="delete-btn"
+                                        onclick="return confirm('Delete this product?');"
+                                    >
+                                        Delete
+                                    </a>
+
+                                <!-- STAFF -->
+
+                                {% else %}
+
+                                    <span class="view-only">
+                                        View Only
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty">
+
+            <h2>
+                No Products Found
+            </h2>
+
+            <p>
+                There are no products in your inventory yet.
+            </p>
+
+
+            <!-- ADMIN ONLY -->
+
+            {% if session.get('role') == 'Admin' %}
+
+            <a href="/add-product" class="add-btn">
+                + Add Product
+            </a>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

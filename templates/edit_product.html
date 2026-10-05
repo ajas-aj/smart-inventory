@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Product | SmartInventory</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 270px;
+            background: #0b1424;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 24px 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #1e293b;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            background: #f8fafc;
+        }
+
+        /* Topbar */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Form Card */
+
+        .form-card {
+            max-width: 850px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        .form-header {
+            margin-bottom: 28px;
+        }
+
+        .form-header h2 {
+            font-size: 21px;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* Form */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+            color: #111827;
+            background: white;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        /* Buttons */
+
+        .buttons {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 22px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .update-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cancel {
+            text-decoration: none;
+            color: #64748b;
+            padding: 12px 16px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cancel:hover {
+            background: #f1f5f9;
+            color: #374151;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 800px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                padding: 22px;
+            }
+
+            .user-area {
+                display: none;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            Smart<span>Inventory</span>
+        </div>
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/products" class="active">
+                Products
+            </a>
+
+            <a href="/categories">
+                Categories
+            </a>
+
+            <a href="/suppliers">
+                Suppliers
+            </a>
+
+            <a href="/stock-management">
+                Stock Management
+            </a>
+
+            <a href="/sales">
+                Sales
+            </a>
+
+        </div>
+
+        <div class="menu-title">
+            Reports
+        </div>
+
+        <div class="menu">
+
+            <a href="#">
+                Sales Reports
+            </a>
+
+            <a href="#">
+                Stock Reports
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <!-- Topbar -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Edit Product</h1>
+
+                <p>
+                    Update your product information
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div class="user">
+                    👤 Admin
+                </div>
+
+                <a class="logout" href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Form -->
+
+        <div class="form-card">
+
+            <div class="form-header">
+
+                <h2>Product Details</h2>
+
+                <p>
+                    Update the information below and save your changes.
+                </p>
+
+            </div>
+
+
+            <form method="POST">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label for="name">
+                            Product Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ product.name }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                        <input
+                            type="text"
+                            id="category"
+                            name="category"
+                            value="{{ product.category or '' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="supplier">
+                            Supplier
+                        </label>
+
+                        <input
+                            type="text"
+                            id="supplier"
+                            name="supplier"
+                            value="{{ product.supplier or '' }}"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="price">
+                            Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="price"
+                            name="price"
+                            step="0.01"
+                            value="{{ product.price }}"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="quantity">
+                            Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            value="{{ product.quantity }}"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="minimum_stock">
+                            Minimum Stock
+                        </label>
+
+                        <input
+                            type="number"
+                            id="minimum_stock"
+                            name="minimum_stock"
+                            value="{{ product.minimum_stock }}"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="buttons">
+
+                    <button
+                        type="submit"
+                        class="update-btn"
+                    >
+                        Update Product
+                    </button>
+
+                    <a
+                        href="/products"
+                        class="cancel"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

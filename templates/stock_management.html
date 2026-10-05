@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stock Management | SmartInventory</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1f2937;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 270px;
+            background: #0b1424;
+            color: white;
+            padding: 28px 18px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #94a3b8;
+            margin: 24px 10px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .menu a {
+            display: block;
+            text-decoration: none;
+            color: #cbd5e1;
+            padding: 12px 14px;
+            margin-bottom: 6px;
+            border-radius: 9px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu a:hover {
+            background: #1e293b;
+            color: white;
+        }
+
+        .menu a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Main */
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            background: #f8fafc;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar h1 {
+            font-size: 28px;
+            color: #111827;
+            margin-bottom: 5px;
+        }
+
+        .topbar p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .user {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #dc2626;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Stock Card */
+
+        .stock-section {
+            background: white;
+            padding: 26px;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+        }
+
+        .section-header {
+            margin-bottom: 22px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .section-header p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* Table */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 15px 12px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        th {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            background: #f8fafc;
+        }
+
+        td {
+            color: #374151;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Product */
+
+        .product-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .quantity {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .minimum {
+            color: #64748b;
+        }
+
+        /* Status */
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .in {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .low {
+            color: #92400e;
+            background: #fef3c7;
+        }
+
+        .out {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        /* Empty */
+
+        .empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+        }
+
+        .empty h3 {
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 20px;
+            }
+
+            .user-area {
+                display: none;
+            }
+
+            .stock-section {
+                padding: 18px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            Smart<span>Inventory</span>
+        </div>
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard">
+                Dashboard
+            </a>
+
+            <a href="/products">
+                Products
+            </a>
+
+            <a href="/categories">
+                Categories
+            </a>
+
+            <a href="/suppliers">
+                Suppliers
+            </a>
+
+            <a href="/stock-management" class="active">
+                Stock Management
+            </a>
+
+            <a href="/sales">
+                Sales
+            </a>
+
+        </div>
+
+        <div class="menu-title">
+            Reports
+        </div>
+
+        <div class="menu">
+
+            <a href="#">
+                Sales Reports
+            </a>
+
+            <a href="#">
+                Stock Reports
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Stock Management</h1>
+
+                <p>
+                    Monitor and track your inventory stock levels
+                </p>
+
+            </div>
+
+            <div class="user-area">
+
+                <div class="user">
+                    👤 Admin
+                </div>
+
+                <a
+                    class="logout"
+                    href="{{ url_for('logout') }}"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Stock -->
+
+        <div class="stock-section">
+
+            <div class="section-header">
+
+                <h2>Stock Overview</h2>
+
+                <p>
+                    Current stock levels and minimum stock requirements
+                </p>
+
+            </div>
+
+
+            {% if products %}
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Quantity</th>
+                            <th>Minimum Stock</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for product in products %}
+
+                        <tr>
+
+                            <td class="product-name">
+                                {{ product.name }}
+                            </td>
+
+                            <td>
+                                {{ product.category or "-" }}
+                            </td>
+
+                            <td class="quantity">
+                                {{ product.quantity }}
+                            </td>
+
+                            <td class="minimum">
+                                {{ product.minimum_stock }}
+                            </td>
+
+                            <td>
+
+                                {% if product.quantity == 0 %}
+
+                                <span class="status out">
+                                    Out of Stock
+                                </span>
+
+                                {% elif product.quantity <= product.minimum_stock %}
+
+                                <span class="status low">
+                                    Low Stock
+                                </span>
+
+                                {% else %}
+
+                                <span class="status in">
+                                    In Stock
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty">
+
+                <h3>No Products Found</h3>
+
+                <p>
+                    Add products to your inventory to manage stock levels.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

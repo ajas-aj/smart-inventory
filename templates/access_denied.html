@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Access Denied | SmartInventory</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+            text-align: center;
+
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5e7eb;
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background: #fee2e2;
+            color: #dc2626;
+
+            font-size: 32px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #111827;
+            margin-bottom: 10px;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 22px;
+
+            background: #2563eb;
+            color: white;
+
+            text-decoration: none;
+            border-radius: 8px;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .logout {
+            display: block;
+            margin-top: 16px;
+
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .logout:hover {
+            color: #dc2626;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="icon">
+            🔒
+        </div>
+
+        <h1>Access Restricted</h1>
+
+        <p>
+            You don't have permission to access this page.
+            Please contact your business administrator if you need access.
+        </p>
+
+        <a href="/dashboard" class="back-btn">
+            ← Back to Dashboard
+        </a>
+
+        <a href="/logout" class="logout">
+            Logout
+        </a>
+
+    </div>
+
+</body>
+</html>
