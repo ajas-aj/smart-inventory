@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import mysql.connector
-
+import mysql.connector
+import os
 app = Flask(__name__)
 
 app.secret_key = "smart-inventory-secret-key"
@@ -11,6 +12,22 @@ app.secret_key = "smart-inventory-secret-key"
 # =========================
 
 def get_db_connection():
+
+    # Cloud database on Vercel
+    if os.getenv("MYSQL_HOST"):
+
+        return mysql.connector.connect(
+            host=os.getenv("MYSQL_HOST"),
+            port=int(os.getenv("MYSQL_PORT", "3306")),
+            user=os.getenv("MYSQL_USER"),
+            password=os.getenv("MYSQL_PASSWORD"),
+            database=os.getenv("MYSQL_DATABASE"),
+            ssl_disabled=False,
+            ssl_verify_cert=False,
+            ssl_verify_identity=False
+        )
+
+    # Local database on Mac
     return mysql.connector.connect(
         host="localhost",
         user="root",
